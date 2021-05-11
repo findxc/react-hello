@@ -11,11 +11,21 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
+  "devDependencies": {
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0",
+    "husky": "^6.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --max-warnings=0",
+    "*.{js,jsx,html,css}": "prettier --write"
   },
   "eslintConfig": {
     "extends": [
