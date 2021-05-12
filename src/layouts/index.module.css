@@ -1,0 +1,19 @@
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background: linen;
+  padding: 12px 0;
+}
+
+.sidebar > a {
+  display: block;
+  padding: 12px 24px;
+}
+
+.main {
+  padding: 24px;
+}
