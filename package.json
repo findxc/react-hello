@@ -13,12 +13,16 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.3.0",
-    "husky": "^6.0.0"
+    "mocker-api": "^2.8.3",
+    "mockjs": "^1.1.0",
+    "prettier": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-mock": "cross-env API_ENV=mock react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
