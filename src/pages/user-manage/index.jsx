@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Card } from 'antd'
 import { getUsers } from './service'
 
 function UserList() {
@@ -16,11 +17,13 @@ function UserList() {
   return (
     <div>
       <div>用户列表页</div>
-      <pre>
-        total：{total}
-        {'\n'}
-        list：{JSON.stringify(list, null, 2)}
-      </pre>
+      <Card>
+        <pre>
+          total：{total}
+          {'\n'}
+          list：{JSON.stringify(list, null, 2)}
+        </pre>
+      </Card>
     </div>
   )
 }
