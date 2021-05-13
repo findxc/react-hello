@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
+import { getUsers } from './service'
 
 function UserList() {
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
-    fetch('/api/users')
-      .then((res) => res.json())
-      .then((res) => {
-        setList(res.list)
-        setTotal(res.total)
-      })
+    getUsers().then((res) => {
+      const { total, list } = res.data
+      setList(list)
+      setTotal(total)
+    })
   }, [])
 
   return (
