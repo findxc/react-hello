@@ -1,10 +1,22 @@
 import { useState, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
 import { Card } from 'antd'
+import timerStore from '../../stores/timer'
 import { getUsers } from './service'
 
 function UserList() {
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      timerStore.increaseTimer()
+    }, 1000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
 
   useEffect(() => {
     getUsers().then((res) => {
@@ -16,6 +28,7 @@ function UserList() {
 
   return (
     <div>
+      <div>timerStore.secondsPassed: {timerStore.secondsPassed}</div>
       <div>用户列表页</div>
       <Card>
         <pre>
@@ -28,4 +41,4 @@ function UserList() {
   )
 }
 
-export default UserList
+export default observer(UserList)
