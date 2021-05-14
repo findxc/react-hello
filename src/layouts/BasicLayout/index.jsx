@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Menu, Dropdown } from 'antd'
-import globalStore from '../../stores/global'
+import globalStore from 'stores/global'
 import { getCurrentUser } from './service'
 import styles from './index.module.css'
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Card } from 'antd'
-import timerStore from '../../stores/timer'
+import timerStore from 'stores/timer'
 import { getUsers } from './service'
 
 function UserList() {
