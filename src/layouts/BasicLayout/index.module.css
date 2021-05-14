@@ -16,7 +16,13 @@
 
 .main {
   padding: 24px;
+  padding-top: 12px;
   max-height: 100%;
   flex: 1;
   overflow-y: auto;
+}
+
+.header {
+  text-align: right;
+  margin-bottom: 12px;
 }
