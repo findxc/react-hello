@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Card } from 'antd'
+import { Card, Button } from 'antd'
 import timerStore from 'stores/timer'
 import { getUsers } from './service'
+import styles from './index.module.less'
 
 function UserList() {
   const [list, setList] = useState([])
@@ -29,7 +30,8 @@ function UserList() {
   return (
     <div>
       <div>timerStore.secondsPassed: {timerStore.secondsPassed}</div>
-      <div>用户列表页</div>
+      <div className={styles.titleRow}>用户列表页</div>
+      <Button type='primary'>测试主题色配置</Button>
       <Card>
         <pre>
           total：{total}
