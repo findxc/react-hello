@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './pages'
+import App from './App'
 import reportWebVitals from './reportWebVitals'
 import setupAxios from './setupAxios'
 import './index.less'
