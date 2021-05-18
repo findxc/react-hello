@@ -45,8 +45,7 @@
       "react-app/jest"
     ],
     "rules": {
-      "no-const-assign": "error",
-      "no-unused-vars": "error"
+      "no-const-assign": "error"
     }
   },
   "browserslist": {
