@@ -26,3 +26,7 @@
   text-align: right;
   margin-bottom: 12px;
 }
+
+.activeLink {
+  background: rgba(255, 192, 201, 0.4);
+}
