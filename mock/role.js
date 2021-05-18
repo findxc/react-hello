@@ -4,11 +4,12 @@ module.exports = {
   'GET /api/roles': (req, res) => {
     res.send(
       mock({
-        total: '@integer(10, 50)',
-        'list|10': [
+        total: 52,
+        [`list|${req.query.pageSize}`]: [
           {
             'id|+1': 1,
             name: '@ctitle',
+            desc: '@cparagraph',
           },
         ],
       })
