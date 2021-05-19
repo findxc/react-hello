@@ -8,14 +8,14 @@ const formLayout = {
 }
 
 function EditRoleModal(props) {
-  const { visible, detail, onCancel, onSuccess } = props
+  const { visible, detail, onCancel, onOk, ...restProps } = props
   const modalTitle = detail.id ? '编辑角色' : '添加角色'
 
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const [form] = Form.useForm()
 
-  const onOk = () => {
+  const _onOk = () => {
     form.validateFields().then((values) => {
       setConfirmLoading(true)
       const request = detail.id
@@ -23,18 +23,19 @@ function EditRoleModal(props) {
         : addRole(values)
       request.then(() => {
         setConfirmLoading(false)
-        onSuccess()
+        onOk()
       })
     })
   }
 
   return (
     <Modal
+      {...restProps}
       destroyOnClose
       title={modalTitle}
       visible={visible}
       confirmLoading={confirmLoading}
-      onOk={onOk}
+      onOk={_onOk}
       onCancel={onCancel}
     >
       <Form {...formLayout} form={form} preserve={false}>

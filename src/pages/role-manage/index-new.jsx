@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Table, Button } from 'antd'
 import EditRoleModal from './EditRoleModal'
+import openModal from 'utils/openModal'
 import { getRoles } from './service'
 
 function RoleList() {
@@ -8,9 +9,6 @@ function RoleList() {
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
   const [filter, setFilter] = useState({ current: 1, pageSize: 10 })
-
-  const [roleDetail, setRoleDetail] = useState({})
-  const [editRoleModalVisible, setEditRoleModalVisible] = useState(false)
 
   const getList = (newFilter) => {
     setFilter(newFilter)
@@ -37,10 +35,9 @@ function RoleList() {
     getList({ current, pageSize })
   }
 
-  const onEditRoleSuccess = () => {
-    setEditRoleModalVisible(false)
+  const onEditRoleSuccess = (id) => {
     // 如果是编辑成功就刷新当前页面，否则回到第一页去
-    if (roleDetail.id) {
+    if (id) {
       getList({ ...filter })
     } else {
       getList({ current: 1, pageSize: filter.pageSize })
@@ -48,8 +45,10 @@ function RoleList() {
   }
 
   const onClickEdit = (detail) => {
-    setRoleDetail(detail)
-    setEditRoleModalVisible(true)
+    openModal(EditRoleModal, {
+      detail,
+      onOk: () => onEditRoleSuccess(detail.id),
+    })
   }
 
   const columns = [
@@ -90,12 +89,6 @@ function RoleList() {
         dataSource={list}
         pagination={pagination}
         onChange={onTableChange}
-      />
-      <EditRoleModal
-        detail={roleDetail}
-        visible={editRoleModalVisible}
-        onCancel={() => setEditRoleModalVisible(false)}
-        onOk={onEditRoleSuccess}
       />
     </>
   )
