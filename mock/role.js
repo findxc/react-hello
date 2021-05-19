@@ -15,4 +15,12 @@ module.exports = {
       })
     )
   },
+
+  'POST /api/role': (req, res) => {
+    res.send({ ok: true })
+  },
+
+  'PUT /api/role/:id': (req, res) => {
+    res.send({ ok: true })
+  },
 }
