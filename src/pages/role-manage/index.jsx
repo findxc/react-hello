@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
+import EditRoleModal from './EditRoleModal'
 import { getRoles } from './service'
 
 function RoleList() {
@@ -7,6 +8,9 @@ function RoleList() {
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
   const [filter, setFilter] = useState({ current: 1, pageSize: 10 })
+
+  const [roleDetail, setRoleDetail] = useState({})
+  const [editRoleModalVisible, setEditRoleModalVisible] = useState(false)
 
   const getList = (newFilter) => {
     setFilter(newFilter)
@@ -33,9 +37,36 @@ function RoleList() {
     getList({ current, pageSize })
   }
 
+  const onEditRoleSuccess = () => {
+    setEditRoleModalVisible(false)
+    // 如果是编辑成功就刷新当前页面，否则回到第一页去
+    if (roleDetail.id) {
+      getList({ ...filter })
+    } else {
+      getList({ current: 1, pageSize: filter.pageSize })
+    }
+  }
+
+  const onClickEdit = (detail) => {
+    setRoleDetail(detail)
+    setEditRoleModalVisible(true)
+  }
+
   const columns = [
     { title: '角色名称', dataIndex: 'name', width: '20%' },
     { title: '角色描述', dataIndex: 'desc' },
+    {
+      title: '操作',
+      dataIndex: 'id',
+      align: 'center',
+      render: (id, record) => {
+        return (
+          <Button type='link' onClick={() => onClickEdit(record)}>
+            编辑
+          </Button>
+        )
+      },
+    },
   ]
 
   const pagination = {
@@ -46,7 +77,12 @@ function RoleList() {
   }
 
   return (
-    <div>
+    <>
+      <div style={{ marginBottom: 12 }}>
+        <Button type='primary' onClick={() => onClickEdit({})}>
+          添加
+        </Button>
+      </div>
       <Table
         rowKey='id'
         loading={loading}
@@ -55,7 +91,13 @@ function RoleList() {
         pagination={pagination}
         onChange={onTableChange}
       />
-    </div>
+      <EditRoleModal
+        detail={roleDetail}
+        visible={editRoleModalVisible}
+        onCancel={() => setEditRoleModalVisible(false)}
+        onSuccess={onEditRoleSuccess}
+      />
+    </>
   )
 }
 
