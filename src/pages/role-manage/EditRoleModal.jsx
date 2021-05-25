@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Modal, Form, Input } from 'antd'
+import { useHistory } from 'react-router-dom'
+import { Modal, Form, Input, Button } from 'antd'
 import { addRole, updateRole } from './service'
 
 const formLayout = {
@@ -8,12 +9,14 @@ const formLayout = {
 }
 
 function EditRoleModal(props) {
-  const { visible, detail, onCancel, onOk, ...restProps } = props
+  const { visible, detail = {}, onCancel, onOk, ...restProps } = props
   const modalTitle = detail.id ? '编辑角色' : '添加角色'
 
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const [form] = Form.useForm()
+
+  const history = useHistory()
 
   const _onOk = () => {
     form.validateFields().then((values) => {
@@ -28,6 +31,11 @@ function EditRoleModal(props) {
     })
   }
 
+  const toHome = () => {
+    console.log(history)
+    history.push('/')
+  }
+
   return (
     <Modal
       {...restProps}
@@ -38,6 +46,9 @@ function EditRoleModal(props) {
       onOk={_onOk}
       onCancel={onCancel}
     >
+      <Button onClick={toHome}>测试 useHistory 正常使用，点击跳转首页</Button>
+      <br />
+      <br />
       <Form {...formLayout} form={form} preserve={false}>
         <Form.Item
           name='name'
