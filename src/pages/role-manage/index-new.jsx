@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Table, Button } from 'antd'
 import EditRoleModal from './EditRoleModal'
 import openModal from 'utils/openModal'
+import useModal from 'utils/useModal'
 import { getRoles } from './service'
 
 function RoleList() {
@@ -9,6 +10,8 @@ function RoleList() {
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
   const [filter, setFilter] = useState({ current: 1, pageSize: 10 })
+
+  const [editRoleModal, openEditRoleModal] = useModal(EditRoleModal)
 
   const getList = (newFilter) => {
     setFilter(newFilter)
@@ -51,6 +54,13 @@ function RoleList() {
     })
   }
 
+  const onClickEdit2 = (detail) => {
+    openEditRoleModal({
+      detail,
+      onOk: () => onEditRoleSuccess(detail.id),
+    })
+  }
+
   const columns = [
     { title: '角色名称', dataIndex: 'name', width: '20%' },
     { title: '角色描述', dataIndex: 'desc' },
@@ -79,7 +89,10 @@ function RoleList() {
     <>
       <div style={{ marginBottom: 12 }}>
         <Button type='primary' onClick={() => onClickEdit({})}>
-          添加
+          添加（使用 openModal）
+        </Button>
+        <Button type='primary' onClick={() => onClickEdit2({})}>
+          添加（使用 useModal）
         </Button>
       </div>
       <Table
@@ -90,6 +103,7 @@ function RoleList() {
         pagination={pagination}
         onChange={onTableChange}
       />
+      {editRoleModal}
     </>
   )
 }

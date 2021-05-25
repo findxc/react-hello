@@ -1,4 +1,5 @@
 import * as ReactDOM from 'react-dom'
+import { AntdConfig } from '../App'
 
 function openModal(MyModal, config) {
   const div = document.createElement('div')
@@ -27,7 +28,13 @@ function openModal(MyModal, config) {
      * Sync render blocks React event. Let's make this async.
      */
     setTimeout(() => {
-      ReactDOM.render(<MyModal {...props} />, div)
+      // 这里加上了 AntdConfig ，但是如果想获取其它 context 的内容还是获取不到，比如 useHistory
+      ReactDOM.render(
+        <AntdConfig>
+          <MyModal {...props} />
+        </AntdConfig>,
+        div
+      )
     })
   }
 
