@@ -1,8 +1,13 @@
 import axios from 'axios'
+import { stringify } from 'qs'
 
 function setupAxios() {
   // 如果后端接口是允许跨域的，那直接在这里配置上就行了，否则还需要配置代理
   // axios.defaults.baseURL = 'https://api.example.com';
+
+  axios.defaults.paramsSerializer = (params) => {
+    return stringify(params, { arrayFormat: 'repeat' })
+  }
 
   axios.interceptors.response.use(
     function (response) {
