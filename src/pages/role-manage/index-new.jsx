@@ -1,49 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Table, Button } from 'antd'
 import EditRoleModal from './EditRoleModal'
 import openModal from 'utils/openModal'
 import useModal from 'utils/useModal'
-import { getRoles } from './service'
+import useQuery from 'utils/useQuery'
 
 function RoleList() {
-  const [loading, setLoading] = useState(false)
-  const [list, setList] = useState([])
-  const [total, setTotal] = useState(0)
   const [filter, setFilter] = useState({ current: 1, pageSize: 10 })
-
+  const { loading, data: roleListData } = useQuery('/api/roles', filter)
   const [editRoleModal, openEditRoleModal] = useModal(EditRoleModal)
-
-  const getList = (newFilter) => {
-    setFilter(newFilter)
-    setLoading(true)
-    getRoles(newFilter)
-      .then((res) => {
-        const { list, total } = res.data
-        setList(list)
-        setTotal(total)
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-      })
-  }
-
-  useEffect(() => {
-    getList(filter)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const onTableChange = (pagination) => {
     const { current, pageSize } = pagination
-    getList({ current, pageSize })
+    setFilter({ current, pageSize })
   }
 
   const onEditRoleSuccess = (id) => {
     // 如果是编辑成功就刷新当前页面，否则回到第一页去
     if (id) {
-      getList({ ...filter })
+      setFilter({ ...filter })
     } else {
-      getList({ current: 1, pageSize: filter.pageSize })
+      setFilter({ current: 1, pageSize: filter.pageSize })
     }
   }
 
@@ -80,7 +57,7 @@ function RoleList() {
 
   const pagination = {
     ...filter,
-    total,
+    total: roleListData?.total,
     showSizeChanger: true,
     showTotal: (total) => `共 ${total} 条`,
   }
@@ -99,7 +76,7 @@ function RoleList() {
         rowKey='id'
         loading={loading}
         columns={columns}
-        dataSource={list}
+        dataSource={roleListData?.list}
         pagination={pagination}
         onChange={onTableChange}
       />
