@@ -1,5 +1,6 @@
 import CardA from './CardA'
 import CardB from './CardB'
+import CardC from './CardC'
 
 function List() {
   return (
@@ -7,6 +8,8 @@ function List() {
       <CardA />
       <br />
       <CardB />
+      <br />
+      <CardC />
     </>
   )
 }
