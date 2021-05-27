@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { SWRConfig } from 'swr'
+import axios from 'axios'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/lib/locale/zh_CN'
 import moment from 'moment'
@@ -16,13 +18,21 @@ const validateMessages = {
   required: '${label}不能为空',
 }
 
-export function AntdConfig(props) {
-  return <ConfigProvider {...props} locale={zhCN} form={{ validateMessages }} />
+const swrDefaultConfig = {
+  fetcher: (url, params) => axios.get(url, { params }).then((res) => res.data),
+}
+
+export function GlobalConfig(props) {
+  return (
+    <SWRConfig value={swrDefaultConfig}>
+      <ConfigProvider {...props} locale={zhCN} form={{ validateMessages }} />
+    </SWRConfig>
+  )
 }
 
 function App() {
   return (
-    <AntdConfig>
+    <GlobalConfig>
       <Router>
         <Layout>
           <Switch>
@@ -40,7 +50,7 @@ function App() {
           </Switch>
         </Layout>
       </Router>
-    </AntdConfig>
+    </GlobalConfig>
   )
 }
 
