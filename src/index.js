@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import setupAxios from './setupAxios'
+import './utils/loginBroadcast'
 import './index.less'
 
 setupAxios()
