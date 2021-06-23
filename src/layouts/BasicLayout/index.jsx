@@ -3,6 +3,7 @@ import { NavLink, useLocation, useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Menu, Dropdown } from 'antd'
 import globalStore from 'stores/global'
+import loginBroadcast from 'utils/loginBroadcast'
 import { getCurrentUser } from './service'
 import routes from '../../routes'
 import styles from './index.module.css'
@@ -41,6 +42,7 @@ function BasicLayout(props) {
     // 注意要重置下数据，否则下次登录进来会展示旧数据
     globalStore.reset()
     history.push('/login')
+    loginBroadcast.postMessage('false')
   }
 
   return (
