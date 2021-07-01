@@ -1,8 +1,21 @@
-import { useState } from 'react'
-import { Table, Popconfirm, Button } from 'antd'
+import { useState, useMemo } from 'react'
+import {
+  Table,
+  Popconfirm,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Select,
+  TreeSelect,
+} from 'antd'
 import useQuery from 'utils/useQuery'
-import EditModal from './components/EditModal'
-import { deleteUser } from './service'
+import { deleteUser, addUser, updateUser } from './service'
+
+const formLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 15 },
+}
 
 function UserList() {
   const [filter, setFilter] = useState({ current: 1, pageSize: 10 })
@@ -11,6 +24,19 @@ function UserList() {
 
   const [modalDetail, setModalDetail] = useState({})
   const [modalVisible, setModalVisible] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+
+  const [form] = Form.useForm()
+
+  const { data: allRoles } = useQuery('/api/roles/all')
+  const roleOptions = useMemo(() => {
+    return (allRoles || []).map((item) => {
+      const { id, name } = item
+      return { value: id, label: name }
+    })
+  }, [allRoles])
+
+  const { data: allIndustrys } = useQuery('/api/industrys')
 
   const onTableChange = (pagination) => {
     const { current, pageSize } = pagination
@@ -38,15 +64,36 @@ function UserList() {
       })
   }
 
-  const onEditSuccess = () => {
-    setModalVisible(false)
-    // 是修改就刷新当前页面，是添加就到第一页去
-    if (modalDetail.id) {
-      setFilter({ ...filter })
-    } else {
-      setFilter({ ...filter, current: 1 })
-    }
+  const onModalOk = () => {
+    setConfirmLoading(true)
+    form
+      .validateFields()
+      .then((values) => {
+        const request = modalDetail.id
+          ? updateUser(modalDetail.id, values)
+          : addUser(values)
+        return request
+      })
+      .then(() => {
+        setModalVisible(false)
+        setConfirmLoading(false)
+        // 是修改就刷新当前页面，是添加就到第一页去
+        if (modalDetail.id) {
+          setFilter({ ...filter })
+        } else {
+          setFilter({ ...filter, current: 1 })
+        }
+      })
+      .catch(() => {
+        setConfirmLoading(false)
+      })
   }
+
+  const renderTreeNode = ({ id, name, children }) => (
+    <TreeSelect.TreeNode key={id} value={id} title={name}>
+      {children?.map((item) => renderTreeNode(item))}
+    </TreeSelect.TreeNode>
+  )
 
   const columns = [
     { title: '姓名', dataIndex: 'name' },
@@ -55,7 +102,6 @@ function UserList() {
     {
       title: '操作',
       dataIndex: 'id',
-      align: 'center',
       render: (id, record) => {
         return (
           <>
@@ -105,12 +151,41 @@ function UserList() {
         dataSource={data?.list}
         onChange={onTableChange}
       />
-      <EditModal
-        detail={modalDetail}
+      <Modal
+        destroyOnClose
         visible={modalVisible}
+        title={`${modalDetail.id ? '修改' : '添加'}用户`}
+        confirmLoading={confirmLoading}
         onCancel={() => setModalVisible(false)}
-        onSuccess={onEditSuccess}
-      />
+        onOk={onModalOk}
+      >
+        <Form {...formLayout} form={form} preserve={false}>
+          <Form.Item
+            name='name'
+            label='姓名'
+            initialValue={modalDetail.name}
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name='role'
+            label='角色'
+            initialValue={modalDetail.role}
+            rules={[{ required: true }]}
+          >
+            <Select options={roleOptions} />
+          </Form.Item>
+          <Form.Item
+            name='industry'
+            label='行业'
+            initialValue={modalDetail.industry}
+            rules={[{ required: true }]}
+          >
+            <TreeSelect>{(allIndustrys || []).map(renderTreeNode)}</TreeSelect>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   )
 }
