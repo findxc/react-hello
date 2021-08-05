@@ -1,13 +1,12 @@
-import { useState, useEffect, createContext } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink, useLocation, useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Menu, Dropdown } from 'antd'
+import { GlobalDataConfig } from 'utils/useGlobalData'
 import loginBroadcast from 'utils/loginBroadcast'
 import { getCurrentUser } from './service'
 import routes from '../../routes'
 import styles from './index.module.css'
-
-export const GlobalContext = createContext()
 
 const menus = routes
   .filter((item) => item.isMenu)
@@ -48,7 +47,7 @@ function BasicLayout(props) {
   }
 
   return (
-    <GlobalContext.Provider value={userInfo}>
+    <GlobalDataConfig value={userInfo}>
       <div className={styles.layout}>
         <div className={styles.sidebar}>
           {menus.map((item) => {
@@ -80,7 +79,7 @@ function BasicLayout(props) {
           {children}
         </div>
       </div>
-    </GlobalContext.Provider>
+    </GlobalDataConfig>
   )
 }
 
