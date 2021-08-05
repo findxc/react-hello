@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import { useState, useEffect, createContext } from 'react'
 import { NavLink, useLocation, useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Menu, Dropdown } from 'antd'
-import globalStore from 'stores/global'
 import loginBroadcast from 'utils/loginBroadcast'
 import { getCurrentUser } from './service'
 import routes from '../../routes'
 import styles from './index.module.css'
+
+export const GlobalContext = createContext()
 
 const menus = routes
   .filter((item) => item.isMenu)
@@ -14,6 +15,9 @@ const menus = routes
 
 function BasicLayout(props) {
   const { children } = props
+
+  const [userInfo, setUserInfo] = useState()
+
   const location = useLocation()
   const history = useHistory()
 
@@ -21,7 +25,7 @@ function BasicLayout(props) {
 
   useEffect(() => {
     getCurrentUser().then((res) => {
-      globalStore.updateUserInfo(res.data)
+      setUserInfo(res.data)
     })
   }, [])
 
@@ -39,44 +43,44 @@ function BasicLayout(props) {
   }, [])
 
   const onClickLogout = () => {
-    // 注意要重置下数据，否则下次登录进来会展示旧数据
-    globalStore.reset()
     history.push('/login')
     loginBroadcast.postMessage('false')
   }
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.sidebar}>
-        {menus.map((item) => {
-          const { path, title } = item
-          return (
-            <NavLink
-              key={path}
-              exact
-              activeClassName={styles.activeLink}
-              to={path}
-            >
-              {title}
-            </NavLink>
-          )
-        })}
-      </div>
-      <div className={styles.main}>
-        <div className={styles.header}>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item onClick={onClickLogout}>退出登录</Menu.Item>
-              </Menu>
-            }
-          >
-            <span>当前登录用户：{globalStore.userInfo.username}</span>
-          </Dropdown>
+    <GlobalContext.Provider value={userInfo}>
+      <div className={styles.layout}>
+        <div className={styles.sidebar}>
+          {menus.map((item) => {
+            const { path, title } = item
+            return (
+              <NavLink
+                key={path}
+                exact
+                activeClassName={styles.activeLink}
+                to={path}
+              >
+                {title}
+              </NavLink>
+            )
+          })}
         </div>
-        {children}
+        <div className={styles.main}>
+          <div className={styles.header}>
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item onClick={onClickLogout}>退出登录</Menu.Item>
+                </Menu>
+              }
+            >
+              <span>当前登录用户：{userInfo?.username}</span>
+            </Dropdown>
+          </div>
+          {children}
+        </div>
       </div>
-    </div>
+    </GlobalContext.Provider>
   )
 }
 
