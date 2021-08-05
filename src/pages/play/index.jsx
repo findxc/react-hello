@@ -1,8 +1,7 @@
-import { useContext } from 'react'
-import { GlobalContext } from 'layouts/BasicLayout'
+import useGlobalData from 'utils/useGlobalData'
 
 function Play() {
-  const userInfo = useContext(GlobalContext)
+  const userInfo = useGlobalData()
 
   return (
     <div>
