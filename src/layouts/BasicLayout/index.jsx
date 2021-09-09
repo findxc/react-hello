@@ -48,36 +48,41 @@ function BasicLayout(props) {
 
   return (
     <GlobalDataConfig value={userInfo}>
-      <div className={styles.layout}>
-        <div className={styles.sidebar}>
-          {menus.map((item) => {
-            const { path, title } = item
-            return (
-              <NavLink
-                key={path}
-                exact
-                activeClassName={styles.activeLink}
-                to={path}
-              >
-                {title}
-              </NavLink>
-            )
-          })}
-        </div>
-        <div className={styles.main}>
-          <div className={styles.header}>
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item onClick={onClickLogout}>退出登录</Menu.Item>
-                </Menu>
-              }
+      <div className={styles.sidebar}>
+        {menus.map((item) => {
+          const { path, title } = item
+          return (
+            <NavLink
+              key={path}
+              exact
+              activeClassName={styles.activeLink}
+              to={path}
+              isActive={(match, location) => {
+                const { pathname } = location
+                if (match || pathname.includes(`${path}/`)) {
+                  return true
+                }
+                return false
+              }}
             >
-              <span>当前登录用户：{userInfo?.username}</span>
-            </Dropdown>
-          </div>
-          {children}
+              {title}
+            </NavLink>
+          )
+        })}
+      </div>
+      <div className={styles.main}>
+        <div className={styles.header}>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item onClick={onClickLogout}>退出登录</Menu.Item>
+              </Menu>
+            }
+          >
+            <span>当前登录用户：{userInfo?.username}</span>
+          </Dropdown>
         </div>
+        {children}
       </div>
     </GlobalDataConfig>
   )
