@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Modal, Form, Input } from 'antd'
+import { Modal, Form, Input, InputNumber } from 'antd'
 import RoleSelect from './RoleSelect'
 import IndustrySelect from './IndustrySelect'
 import { addUser, updateUser } from '../service'
+import { numValidator } from 'utils/validate'
 
 const formLayout = {
-  labelCol: { span: 6 },
+  labelCol: { span: 7 },
   wrapperCol: { span: 15 },
 }
 
@@ -51,6 +52,14 @@ function EditModal(props) {
           rules={[{ required: true }]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          name='num'
+          label='数字，测试校验'
+          initialValue={detail.num}
+          rules={[{ validator: numValidator(2, 1) }]}
+        >
+          <InputNumber style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item
           name='role'

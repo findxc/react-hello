@@ -1,9 +1,6 @@
-.layout {
-  display: flex;
-  height: 100vh;
-}
-
 .sidebar {
+  position: fixed;
+  height: 100vh;
   width: 200px;
   background: linen;
   padding: 12px 0;
@@ -15,11 +12,7 @@
 }
 
 .main {
-  padding: 24px;
-  padding-top: 12px;
-  max-height: 100%;
-  flex: 1;
-  overflow-y: auto;
+  padding: 12px 24px 24px 224px;
 }
 
 .header {
