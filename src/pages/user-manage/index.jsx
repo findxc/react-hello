@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Table, Popconfirm, Button } from 'antd'
+import { useHistory } from 'react-router-dom'
 import useQuery from 'utils/useQuery'
 import EditModal from './components/EditModal'
 import { deleteUser } from './service'
@@ -11,6 +12,8 @@ function UserList() {
 
   const [modalDetail, setModalDetail] = useState({})
   const [modalVisible, setModalVisible] = useState(false)
+
+  const history = useHistory()
 
   const onTableChange = (pagination) => {
     const { current, pageSize } = pagination
@@ -95,6 +98,12 @@ function UserList() {
       <div style={{ marginBottom: 24 }}>
         <Button type='primary' onClick={() => onClickEdit({})}>
           添加
+        </Button>
+        <Button
+          style={{ marginLeft: 24 }}
+          onClick={() => history.push('/user/detail')}
+        >
+          查看详情
         </Button>
       </div>
       <Table
