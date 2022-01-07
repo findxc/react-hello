@@ -7,6 +7,7 @@ import UserDetail from './pages/user-manage/detail'
 import Play from './pages/play'
 import SWR from './pages/swr'
 import RequireContext from './pages/require-context'
+import Webp from './pages/webp'
 
 const routes = [
   { path: '/login', Com: Login },
@@ -23,6 +24,7 @@ const routes = [
     title: 'require.context',
     isMenu: true,
   },
+  { path: '/webp', Com: Webp, title: '.webp图片', isMenu: true },
 ]
 
 export default routes
