@@ -1,3 +1,4 @@
+const CopyPlugin = require('copy-webpack-plugin')
 const CracoLessPlugin = require('craco-less')
 
 const lessModifyVars = {
@@ -5,6 +6,19 @@ const lessModifyVars = {
 }
 
 module.exports = {
+  webpack: {
+    plugins: [
+      ...(process.env.NODE_ENV === 'production'
+        ? [
+            new CopyPlugin({
+              patterns: [
+                { from: 'src/**/*.webp', to: 'static/media/[name].[ext]' },
+              ],
+            }),
+          ]
+        : []),
+    ],
+  },
   plugins: [
     // 对于 xxx.less 只需要配置 less loader
     {
