@@ -37,7 +37,10 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "img-to-webp": "find ./src -name '*.png' -o -name '*.jpeg' | xargs -I img cwebp img -o img.webp",
+    "gif-to-webp": "find ./src -name '*.gif' | xargs -I img gif2webp img -o img.webp",
+    "webp": "npm run img-to-webp && npm run gif-to-webp"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint",
