@@ -38,7 +38,8 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "webp": "sh webp.sh"
+    "webp": "sh webp.sh",
+    "tiny-image": "sh tiny-image.sh"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint",
