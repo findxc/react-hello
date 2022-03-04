@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 import axios from 'axios'
@@ -35,19 +35,21 @@ function App() {
     <GlobalConfig>
       <Router>
         <Layout>
-          <Switch>
-            {routes.map((item) => {
-              const { path, Com } = item
-              return (
-                <Route key={path} exact path={path}>
-                  <Com />
-                </Route>
-              )
-            })}
-            <Route path='*'>
-              <NoMatch />
-            </Route>
-          </Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              {routes.map((item) => {
+                const { path, Com } = item
+                return (
+                  <Route key={path} exact path={path}>
+                    <Com />
+                  </Route>
+                )
+              })}
+              <Route path='*'>
+                <NoMatch />
+              </Route>
+            </Switch>
+          </Suspense>
         </Layout>
       </Router>
     </GlobalConfig>
