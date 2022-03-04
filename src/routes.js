@@ -1,13 +1,15 @@
-import Login from './pages/login'
-import Stat from './pages/stat'
-import RoleList from './pages/role-manage'
-import RoleListNew from './pages/role-manage/index-new'
-import UserList from './pages/user-manage'
-import UserDetail from './pages/user-manage/detail'
-import Play from './pages/play'
-import SWR from './pages/swr'
-import RequireContext from './pages/require-context'
-import Webp from './pages/webp'
+import { lazy } from 'react'
+
+const Login = lazy(() => import('./pages/login'))
+const Stat = lazy(() => import('./pages/stat'))
+const RoleList = lazy(() => import('./pages/role-manage'))
+const RoleListNew = lazy(() => import('./pages/role-manage/index-new'))
+const UserList = lazy(() => import('./pages/user-manage'))
+const UserDetail = lazy(() => import('./pages/user-manage/detail'))
+const Play = lazy(() => import('./pages/play'))
+const SWR = lazy(() => import('./pages/swr'))
+const RequireContext = lazy(() => import('./pages/require-context'))
+const Webp = lazy(() => import('./pages/webp'))
 
 const routes = [
   { path: '/login', Com: Login },
