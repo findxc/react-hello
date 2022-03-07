@@ -1,5 +1,9 @@
 # 用 create-react-app 来搭建一个脚手架
 
+## 临时提醒
+
+安装依赖用 `npm i --force` ，因为 `craco-less` 和 `@craco/craco` 版本检查通不过，但是功能是 ok 的，等后续 `craco-less` 升级了就不用再 force 了。
+
 ## 图省事就直接用 UmiJS
 恩图省事的话就直接用 [UmiJS](https://umijs.org/zh-CN/docs/getting-started) 来新建项目啦，基本上啥都配置好了可以直接开始写业务。
 
