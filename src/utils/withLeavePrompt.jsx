@@ -1,11 +1,11 @@
 import { useRef } from 'react'
-import { Prompt, useHistory } from 'react-router-dom'
+import { Prompt, useNavigate } from 'react-router-dom'
 import { Modal } from 'antd'
 
 // 会在离开页面时，判断一下是否有未保存的卡片，有的话就进行提醒
 function withLeavePrompt(WrappedComponent, offsetTop = 0) {
   return function (props) {
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const editingRef = useRef([])
 
@@ -37,9 +37,9 @@ function withLeavePrompt(WrappedComponent, offsetTop = 0) {
         onOk: () => {
           editingRef.current = []
           if (action === 'POP') {
-            history.goBack()
+            navigate(-1)
           } else {
-            history.push(nextLocation.pathname)
+            navigate(nextLocation.pathname)
           }
         },
       })

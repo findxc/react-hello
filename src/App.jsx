@@ -1,5 +1,10 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useRoutes,
+} from 'react-router-dom'
 import { SWRConfig } from 'swr'
 import axios from 'axios'
 import { ConfigProvider } from 'antd'
@@ -31,24 +36,22 @@ export function GlobalConfig(props) {
 }
 
 function App() {
+  const routeElements = useRoutes(routes)
   return (
     <GlobalConfig>
       <Router>
         <Layout>
           <Suspense fallback={<div>Loading...</div>}>
-            <Switch>
+            {routeElements}
+            {/* <Routes>
               {routes.map((item) => {
                 const { path, Com } = item
-                return (
-                  <Route key={path} exact path={path}>
-                    <Com />
-                  </Route>
-                )
+                return <Route key={path} path={path} element={<Com />} />
               })}
               <Route path='*'>
                 <NoMatch />
               </Route>
-            </Switch>
+            </Routes> */}
           </Suspense>
         </Layout>
       </Router>

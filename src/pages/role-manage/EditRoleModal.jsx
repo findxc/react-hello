@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Modal, Form, Input, Button } from 'antd'
 import { addRole, updateRole } from './service'
 
@@ -16,7 +16,7 @@ function EditRoleModal(props) {
 
   const [form] = Form.useForm()
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const _onOk = () => {
     form.validateFields().then((values) => {
@@ -32,8 +32,8 @@ function EditRoleModal(props) {
   }
 
   const toHome = () => {
-    console.log(history)
-    history.push('/')
+    console.log(navigate)
+    navigate('/')
   }
 
   return (
@@ -46,7 +46,7 @@ function EditRoleModal(props) {
       onOk={_onOk}
       onCancel={onCancel}
     >
-      <Button onClick={toHome}>测试 useHistory 正常使用，点击跳转首页</Button>
+      <Button onClick={toHome}>测试 useNavigate 正常使用，点击跳转首页</Button>
       <br />
       <br />
       <Form {...formLayout} form={form} preserve={false}>

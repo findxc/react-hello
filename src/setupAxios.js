@@ -23,7 +23,7 @@ function setupAxios() {
 
       const { status } = error.response
       if (status === 401) {
-        // 因为这里无法使用 useHistory 也就无法直接 history.push
+        // 因为这里无法使用 useNavigate 也就无法直接 history.push
         // 而又不想直接 window.location
         // 所以就触发一个自定义事件，然后在 App 里面去处理
         const toLoginEvent = new CustomEvent('toLogin')

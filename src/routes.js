@@ -12,21 +12,26 @@ const RequireContext = lazy(() => import('./pages/require-context'))
 const Webp = lazy(() => import('./pages/webp'))
 
 const routes = [
-  { path: '/login', Com: Login },
-  { path: '/', Com: Play, title: 'play', isMenu: true },
-  { path: '/stat', Com: Stat, title: '统计数据', isMenu: true },
-  { path: '/role', Com: RoleList, title: '角色管理', isMenu: true },
-  { path: '/role-new', Com: RoleListNew, title: '角色管理-新', isMenu: true },
-  { path: '/user', Com: UserList, title: '用户管理', isMenu: true },
-  { path: '/user/detail', Com: UserDetail, title: '用户详情' },
-  { path: '/swr', Com: SWR, title: 'SWR', isMenu: true },
+  { path: '/login', element: <Login /> },
+  { path: '/', element: <Play />, title: 'play', isMenu: true },
+  { path: '/stat', element: <Stat />, title: '统计数据', isMenu: true },
+  { path: '/role', element: <RoleList />, title: '角色管理', isMenu: true },
+  {
+    path: '/role-new',
+    element: <RoleListNew />,
+    title: '角色管理-新',
+    isMenu: true,
+  },
+  { path: '/user', element: <UserList />, title: '用户管理', isMenu: true },
+  { path: '/user/detail', element: <UserDetail />, title: '用户详情' },
+  { path: '/swr', element: <SWR />, title: 'SWR', isMenu: true },
   {
     path: '/require-context',
-    Com: RequireContext,
+    element: <RequireContext />,
     title: 'require.context',
     isMenu: true,
   },
-  { path: '/webp', Com: Webp, title: '.webp图片', isMenu: true },
+  { path: '/webp', element: <Webp />, title: '.webp图片', isMenu: true },
 ]
 
 export default routes

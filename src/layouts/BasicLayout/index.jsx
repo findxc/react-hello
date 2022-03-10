@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { NavLink, useLocation, useHistory } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Menu, Dropdown } from 'antd'
 import { GlobalDataConfig } from 'utils/useGlobalData'
@@ -18,7 +18,7 @@ function BasicLayout(props) {
   const [userInfo, setUserInfo] = useState()
 
   const location = useLocation()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const { pathname, search } = location
 
@@ -31,7 +31,7 @@ function BasicLayout(props) {
   useEffect(() => {
     // 监听 axios.interceptors 的 401 跳转登录页面
     const toLoginListener = () => {
-      history.push(`/login?from=${pathname}${search}`)
+      navigate(`/login?from=${pathname}${search}`)
     }
     window.addEventListener('toLogin', toLoginListener)
 
@@ -42,7 +42,7 @@ function BasicLayout(props) {
   }, [])
 
   const onClickLogout = () => {
-    history.push('/login')
+    navigate('/login')
     loginBroadcast.postMessage('false')
   }
 
@@ -54,9 +54,9 @@ function BasicLayout(props) {
           return (
             <NavLink
               key={path}
-              exact
-              activeClassName={styles.activeLink}
+              end
               to={path}
+              className={({ isActive }) => (isActive ? styles.activeLink : '')}
               isActive={(match, location) => {
                 const { pathname } = location
                 if (match || pathname.includes(`${path}/`)) {

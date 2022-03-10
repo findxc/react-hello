@@ -1,14 +1,14 @@
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import qs from 'qs'
 import loginBroadcast from 'utils/loginBroadcast'
 
 function Login() {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
 
   const onClickLogin = () => {
     const searchObj = qs.parse(location.search, { ignoreQueryPrefix: true })
-    history.push(searchObj.from || '/')
+    navigate(searchObj.from || '/')
     loginBroadcast.postMessage('true')
   }
 
