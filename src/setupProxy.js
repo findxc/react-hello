@@ -1,8 +1,12 @@
-const path = require('path')
-const apiMocker = require('mocker-api')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = function (app) {
   if (process.env.API_ENV === 'mock') {
-    apiMocker(app, path.resolve(__dirname, '../mock/index.js'))
+    app.use(
+      '/api',
+      createProxyMiddleware({
+        target: 'http://localhost:5050',
+      })
+    )
   }
 }
