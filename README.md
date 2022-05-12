@@ -55,11 +55,8 @@ MR 见 https://github.com/findxc/react-hello/pull/2/files 。
 关于代码切割： [Code-Splitting – React](https://reactjs.org/docs/code-splitting.html) 。
 
 ## mock 数据
-MR 见 https://github.com/findxc/react-hello/pull/3/files 。
 
-但是这样如果新增一个 mock 文件的话，不会实时生效，所以又改了下，见 https://github.com/findxc/react-hello/pull/6/files 。
-
-使用 [mocker-api](https://github.com/jaywcjlove/mocker-api) 来启动 mock 服务，使用 [mockjs](http://mockjs.com/examples.html) 来 mock 数据。
+使用 [@findtools/mock-server](https://github.com/findxc/mock-server) 来启动 mock 服务，使用 [mockjs](http://mockjs.com/examples.html) 来 mock 数据。
 
 ## 发请求
 MR 见 https://github.com/findxc/react-hello/pull/4/files 。

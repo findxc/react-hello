@@ -23,17 +23,18 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@findtools/mock-server": "^1.0.0",
     "copy-webpack-plugin": "^6.4.1",
     "cross-env": "^7.0.3",
+    "http-proxy-middleware": "^2.0.6",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
-    "mocker-api": "^2.8.3",
     "mockjs": "^1.1.0",
     "prettier": "^2.3.0"
   },
   "scripts": {
     "start": "craco start",
-    "start-mock": "cross-env API_ENV=mock craco start",
+    "start:mock": "cross-env API_ENV=mock craco start & mock-server",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
