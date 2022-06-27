@@ -1,14 +1,10 @@
 import { useState } from 'react'
-import { Modal, Form, Input, InputNumber } from 'antd'
+import { Modal, Form, InputNumber } from 'antd'
+import MyForm from 'components/MyForm'
+import { numValidator } from 'utils/validate'
 import RoleSelect from './RoleSelect'
 import IndustrySelect from './IndustrySelect'
 import { addUser, updateUser } from '../service'
-import { numValidator } from 'utils/validate'
-
-const formLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 15 },
-}
 
 function EditModal(props) {
   const { detail, visible, onCancel, onSuccess } = props
@@ -35,6 +31,32 @@ function EditModal(props) {
       })
   }
 
+  const formItems = [
+    {
+      name: 'name',
+      label: '姓名',
+      rules: [{ required: true }],
+    },
+    {
+      name: 'num',
+      label: '数字，测试校验',
+      rules: [{ validator: numValidator(2, 1) }],
+      children: <InputNumber style={{ width: '100%' }} />,
+    },
+    {
+      name: 'role',
+      label: '角色',
+      rules: [{ required: true }],
+      children: <RoleSelect />,
+    },
+    {
+      name: 'industry',
+      label: '行业',
+      rules: [{ required: true }],
+      children: <IndustrySelect />,
+    },
+  ]
+
   return (
     <Modal
       destroyOnClose
@@ -44,40 +66,12 @@ function EditModal(props) {
       onCancel={onCancel}
       onOk={onModalOk}
     >
-      <Form {...formLayout} form={form} preserve={false}>
-        <Form.Item
-          name='name'
-          label='姓名'
-          initialValue={detail.name}
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name='num'
-          label='数字，测试校验'
-          initialValue={detail.num}
-          rules={[{ validator: numValidator(2, 1) }]}
-        >
-          <InputNumber style={{ width: '100%' }} />
-        </Form.Item>
-        <Form.Item
-          name='role'
-          label='角色'
-          initialValue={detail.role}
-          rules={[{ required: true }]}
-        >
-          <RoleSelect />
-        </Form.Item>
-        <Form.Item
-          name='industry'
-          label='行业'
-          initialValue={detail.industry}
-          rules={[{ required: true }]}
-        >
-          <IndustrySelect />
-        </Form.Item>
-      </Form>
+      <MyForm
+        preserve={false}
+        form={form}
+        items={formItems}
+        initialValues={detail}
+      />
     </Modal>
   )
 }
