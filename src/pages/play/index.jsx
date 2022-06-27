@@ -1,3 +1,4 @@
+import MyCard from 'components/MyCard'
 import useGlobalData from 'utils/useGlobalData'
 
 function Play() {
@@ -8,6 +9,9 @@ function Play() {
       写各种 demo 的
       <br />
       userInfo: {userInfo && JSON.stringify(userInfo)}
+      <br />
+      <br />
+      <MyCard title='hhh'>hello world</MyCard>
     </div>
   )
 }
