@@ -37,6 +37,7 @@
     "start:mock": "cross-env API_ENV=mock craco start & mock-server",
     "build": "craco build",
     "test": "craco test",
+    "jestc": "run(){ target=$(echo $1 | sed -E 's/.(spec|test)(.[jt]s)$/\\2*/'); npm test -- $1 --watchAll=false --coverage --collectCoverageFrom=$target; }; run",
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "webp": "sh webp.sh",
